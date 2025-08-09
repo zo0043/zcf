@@ -214,6 +214,18 @@ export const I18N = {
     spaceToSelectReturn: '- 空格选择，回车提交',
     // Windows detection
     windowsDetected: '检测到 Windows 系统，将自动配置兼容格式',
+    // Hooks configuration
+    configureHooksPrompt: '是否配置 macOS 用户确认 hooks？',
+    configuringHooks: '正在配置 hooks...',
+    hooksNotSupported: 'Hooks 配置仅支持 macOS 系统',
+    hooksAlreadyConfigured: 'Hooks 脚本已配置，是否重新配置？',
+    hooksConfigurationSkipped: 'Hooks 配置已跳过',
+    hooksCopyFailed: '复制 hooks 脚本失败',
+    hooksConfigFailed: '更新 hooks 配置失败',
+    hooksConfigurationSuccess: 'Hooks 配置完成',
+    hooksUsageInfo: '当 Claude Code 加载配置时，hooks 将会被激活',
+    hooksPermissionFailed: '设置 hooks 脚本可执行权限失败',
+    hooksInvalidPath: '指定的 hooks 配置路径无效',
   },
   en: {
     selectScriptLang: 'Select ZCF display language',
@@ -406,6 +418,18 @@ export const I18N = {
     spaceToSelectReturn: '- Space to select. Return to submit',
     // Windows detection
     windowsDetected: 'Windows detected, will configure compatible format',
+    // Hooks configuration
+    configureHooksPrompt: 'Do you want to configure macOS user confirmation hooks?',
+    configuringHooks: 'Configuring hooks...',
+    hooksNotSupported: 'Hooks configuration is only supported on macOS',
+    hooksAlreadyConfigured: 'Hooks scripts are already configured. Do you want to reconfigure?',
+    hooksConfigurationSkipped: 'Hooks configuration skipped',
+    hooksCopyFailed: 'Failed to copy hooks scripts',
+    hooksConfigFailed: 'Failed to update hooks configuration',
+    hooksConfigurationSuccess: 'Hooks configuration completed successfully',
+    hooksUsageInfo: 'Hooks will be activated when Claude Code loads the configuration',
+    hooksPermissionFailed: 'Failed to set executable permissions for hooks scripts',
+    hooksInvalidPath: 'Invalid path specified for hooks configuration',
   },
 };
 

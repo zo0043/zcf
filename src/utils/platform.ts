@@ -23,6 +23,10 @@ export function isWindows(): boolean {
   return getPlatform() === 'windows';
 }
 
+export function isMacOS(): boolean {
+  return getPlatform() === 'macos';
+}
+
 export function getMcpCommand(): string[] {
   if (isWindows()) {
     return ['cmd', '/c', 'npx'];

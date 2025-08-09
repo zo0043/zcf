@@ -35,6 +35,7 @@ import { resolveAiOutputLanguage, selectScriptLanguage } from '../utils/prompts'
 import { formatApiKeyDisplay } from '../utils/validator';
 import { readZcfConfig, updateZcfConfig } from '../utils/zcf-config';
 import { selectMcpServices } from '../utils/mcp-selector';
+import { configureHooks } from '../utils/hooks';
 
 export interface InitOptions {
   lang?: SupportedLang;
@@ -346,6 +347,21 @@ export async function init(options: InitOptions = {}) {
           } catch (error) {
             console.error(ansis.red(`${i18n.failedToWriteMcpConfig} ${error}`));
           }
+        }
+      }
+    }
+
+    // Step 11: Configure hooks (macOS user confirmation scripts)
+    if (action !== 'docs-only') {
+      try {
+        await configureHooks({
+          lang: scriptLang,
+          force: options.force
+        });
+      } catch (error) {
+        console.warn(ansis.yellow('Hooks configuration failed, continuing with initialization...'));
+        if (error instanceof Error) {
+          console.warn(ansis.gray(`  ${error.message}`));
         }
       }
     }

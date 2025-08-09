@@ -19,6 +19,21 @@ export interface ClaudeSettings {
   experimental?: {
     [key: string]: any;
   };
+  hooks?: {
+    stop?: {
+      command: string;
+      reason: string;
+    };
+    preCompact?: {
+      command: string;
+      trigger: 'manual' | 'auto';
+    };
+    postToolUse?: {
+      Write?: string;
+      [tool: string]: string | undefined;
+    };
+    [hookName: string]: any;
+  };
   [key: string]: any;
 }
 
