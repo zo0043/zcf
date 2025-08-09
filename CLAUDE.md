@@ -39,7 +39,7 @@ pnpm test:ui
 # Generate coverage report
 pnpm test:coverage
 
-# Run tests once
+# Run tests once (no watch mode)
 pnpm test:run
 
 # Run specific test file
@@ -47,6 +47,9 @@ pnpm vitest utils/config.test.ts
 
 # Run tests matching pattern
 pnpm vitest --grep "should handle"
+
+# Run tests with coverage threshold check
+pnpm vitest run --coverage
 ```
 
 ### Release & Publishing
@@ -109,22 +112,30 @@ The project follows a modular utility architecture:
 The project uses Vitest with a layered testing approach:
 
 1. **Core Tests** (`*.test.ts`) - Basic functionality and main flows
-2. **Edge Tests** (`*.edge.test.ts`) - Boundary conditions and error scenarios
-3. **Coverage Goals**: 90% for lines, functions, and statements
+2. **Edge Tests** (`*.edge.test.ts`) - Boundary conditions and error scenarios  
+3. **Coverage Goals**: 90% for lines, functions, and statements (current: ~80%)
 
 Tests extensively use mocking for:
 - File system operations
-- External command execution
+- External command execution  
 - User prompts
 - Platform detection
+
+### Test Architecture
+- **Unit tests**: Located in `test/unit/` with separate files for commands and utils
+- **Test isolation**: Each test file has corresponding `.edge.test.ts` for complex scenarios
+- **Mock strategy**: Comprehensive mocking of external dependencies using vi.mock
+- **Coverage configuration**: Excludes templates, dist, and type definitions from coverage calculations
 
 ### Important Implementation Details
 
 1. **Windows Compatibility**: MCP configurations require special handling for Windows paths (using `cmd /c` wrapper)
 2. **Configuration Backup**: All modifications create timestamped backups in `~/.claude/backup/`
 3. **API Configuration**: Supports both Auth Token (OAuth) and API Key authentication methods
-4. **Template System**: Configuration templates are stored in `templates/` with language-specific subdirectories
+4. **Template System**: Configuration templates are stored in `templates/` with language-specific subdirectories (`en/` and `zh-CN/`)
 5. **Error Recovery**: Exit prompt errors are handled separately to ensure clean termination
+6. **Dangerous Operation Confirmation**: Built-in safety mechanism requiring explicit user confirmation for destructive operations
+7. **Path Handling**: Automatic quote wrapping for paths containing spaces to ensure cross-platform compatibility
 
 ### Type System
 
@@ -132,6 +143,8 @@ The project uses strict TypeScript with:
 - Explicit type definitions in `src/types/` and `src/types.ts`
 - Interface-based design for options and configurations
 - Proper null/undefined handling throughout
+- Build configuration using `unbuild` with dual entry points (`src/index` and `src/cli`)
+- TypeScript target: ES2022 with ESNext modules and bundler resolution
 
 ## Common Development Tasks
 
@@ -156,4 +169,18 @@ The project uses strict TypeScript with:
 - Check `~/.claude/` for generated configurations
 - Review `~/.claude/backup/` for configuration history
 - Test cross-platform behavior with platform detection mocks
-```
+
+### Development Workflow
+1. **Feature Development**: Create corresponding test files before implementation
+2. **Testing**: Run `pnpm test:watch` during development for immediate feedback
+3. **Type Checking**: Use `pnpm typecheck` to ensure TypeScript compliance
+4. **Build**: Run `pnpm build` before committing to verify build integrity
+5. **Release**: Use `pnpm changeset` for version management and publishing
+
+### Key Dependencies and Tools
+- **CLI Framework**: `cac` for command-line interface
+- **Testing**: `vitest` with coverage reporting via `@vitest/coverage-v8`
+- **Build**: `unbuild` for TypeScript compilation and bundling
+- **Execution**: `tsx` for TypeScript execution during development
+- **Prompts**: `inquirer` for interactive command-line prompts
+- **Utilities**: `pathe` for path operations, `tinyexec` for process execution
