@@ -29,5 +29,17 @@
     ],
     "deny": []
   },
-  "hooks": {}
+  "hooks": {
+    "stop": {
+      "command": "bash \"$(dirname \"$(dirname \"$(realpath \"$0\")\")\")/templates/scripts/hooks_stops.sh\" stop \"Claude Code 会话即将结束，请确认是否继续\"",
+      "reason": "User confirmation required before stopping session"
+    },
+    "preCompact": {
+      "command": "bash \"$(dirname \"$(dirname \"$(realpath \"$0\")\")\")/templates/scripts/user_confirmation.sh\" --dialog compact \"Claude Code 压缩操作\" \"即将进行压缩操作，请确认是否继续\"",
+      "trigger": "manual"
+    },
+    "postToolUse": {
+      "Write": "bash \"$(dirname \"$(dirname \"$(realpath \"$0\")\")\")/templates/scripts/user_confirmation.sh\" --subtitle \"文件修改\" custom \"文件修改提醒\" \"文件已修改，请确认更改是否正确\""
+    }
+  }
 }
